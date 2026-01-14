@@ -1,0 +1,10 @@
+{ 
+/* <ul>
+    {result.incorrect_answers.map(
+        (answer) => (
+            <li>. {answer}</li>
+        )
+        
+    )}
+    <li>{result.correct_answer}</li>
+</ul> */}

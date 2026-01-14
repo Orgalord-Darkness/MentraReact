@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'; 
-import type Question from './../types/mentra-react.ts'
+import type {Question} from './../types/mentra-react.ts'
+import AnswersList from './../components/AnswersList.tsx'; 
 
 export function QuizResults(){
     let compteur = 0; 
@@ -31,24 +32,18 @@ export function QuizResults(){
     <>  
         <h2>Voici les résultats : </h2>
         {results.map(
-            (result) =>(
-                compteur = compteur +1,
-                <section style={{ marginTop: '5px'}}> 
-                    <p>{compteur } {result.question}</p>
-                    <ul>
-                        {result.incorrect_answers.map(
-                            (answer) => (
-                                <li>. {answer}</li>
-                            )
-                            
-                        )}
-                        <li>{result.correct_answer}</li>
-                    </ul>
+            (result,index) =>(
+                <section key={index} style={{ marginTop: '5px'}}> 
+                    <p>Question : {result.question}</p>
+                    <AnswersList 
+                        incorrectAnswers={result.incorrect_answers}
+                        goodAnswer = {result.correct_answer} 
+                    ></AnswersList>
                 </section>
                 
             )
         )}
-        ${console.log(results)
-}    </>
+        {console.log(results)}    
+    </>
     ); 
 }

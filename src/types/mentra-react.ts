@@ -1,4 +1,4 @@
-export default interface Question {
+export interface Question {
     id?: number, 
     // type: string, 
     // difficulty: string, 
@@ -11,4 +11,9 @@ export default interface Question {
     question: string; 
     correct_answer: string; 
     incorrect_answers: string[];
+}
+
+export interface AnswersListProps {
+    incorrectAnswers: string[]; 
+    goodAnswer: string; 
 }
