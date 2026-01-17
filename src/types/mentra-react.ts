@@ -17,3 +17,8 @@ export interface AnswersListProps {
     incorrectAnswers: string[]; 
     goodAnswer: string; 
 }
+
+export interface Category {
+    id: number, 
+    name: string
+}

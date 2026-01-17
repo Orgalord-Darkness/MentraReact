@@ -1,18 +1,9 @@
 import {useState, useEffect} from 'react'; 
-import type {Question} from './../types/mentra-react.ts'
+import type {Question} from './../types/mentra-react.ts';
 import AnswersList from './../components/AnswersList.tsx'; 
 
 export function QuizResults(){
-    let compteur = 0; 
     const url ='https://opentdb.com/api.php?amount=10&difficulty=easy';
-    // const default_question: Question[] = [{
-    //     id: 1, 
-    //     type: 'test', 
-    //     difficulty: 'easy', 
-    //     category: 'Culture Général', 
-    //     question: 'ça va ?', 
-    //     correct_answer: 'oui',
-    // }]
     const [results, setResults] = useState<Question[]>([]); 
     useEffect(()=> {
         fetch(url)
@@ -32,14 +23,14 @@ export function QuizResults(){
     <>  
         <h2>Voici les résultats : </h2>
         {results.map(
-            (result,index) =>(
-                <section key={index} style={{ marginTop: '5px'}}> 
-                    <p>Question : {result.question}</p>
+            (result, index) =>(
+                <div style={{ marginTop: '5px'}}> 
+                    <p className='font-bold'>Question n°{index + 1}: {result.question}</p>
                     <AnswersList 
                         incorrectAnswers={result.incorrect_answers}
                         goodAnswer = {result.correct_answer} 
                     ></AnswersList>
-                </section>
+                </div>
                 
             )
         )}

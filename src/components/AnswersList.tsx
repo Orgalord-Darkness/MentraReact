@@ -38,20 +38,20 @@ export default function AnswersList({incorrectAnswers, goodAnswer}: AnswersListP
     }, [incorrectAnswers, goodAnswer]);
 
     return( 
-        <>
-            {/* <ul>
-                 
-                {numbers.map((number: number) => 
-                    (<li>{number} : {answers[number]}</li> ),
-                )}
-                -------------------------------- 
-            </ul> */}
-            <ul> 
+        <>  
+        <form>
+            <ul>
                 {answers.map((answer: string) => 
-                    (<li>I : {answer}</li> ),
+                    (<li>
+                        <label> 
+                            <input name="answer" type="radio" value={answer}/> 
+                            {answer}
+                        </label>   
+                    </li>),
+                    <br></br>
                 )} 
-                =================================
             </ul>
+        </form>
         </>
           
         );

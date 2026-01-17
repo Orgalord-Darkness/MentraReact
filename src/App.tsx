@@ -2,6 +2,9 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import {QuizResults} from'./components/QuizResults.tsx'; 
+import InputDifficulty from'./components/InputDifficulty.tsx'; 
+import InputNbQuestions from'./components/InputNbQuestions.tsx'; 
+import InputCategories from'./components/InputCategories.tsx'; 
 import './App.css'
 
 function App() {
@@ -17,6 +20,10 @@ function App() {
         </a>
       </div>
       <h1 className="font-bold text-center mt-8">MentraReact</h1>
+      <InputCategories/>
+      <InputDifficulty/>
+      <InputNbQuestions/>
+      {/* <InputCategories/> */}
       <div className="card">
           <QuizResults/>
       </div>

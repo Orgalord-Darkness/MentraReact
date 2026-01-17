@@ -8,3 +8,20 @@
     )}
     <li>{result.correct_answer}</li>
 </ul> */}
+
+{/* <ul>
+                 
+    {numbers.map((number: number) => 
+        (<li>{number} : {answers[number]}</li> ),
+    )}
+    -------------------------------- 
+</ul> */}
+
+ // const default_question: Question[] = [{
+    //     id: 1, 
+    //     type: 'test', 
+    //     difficulty: 'easy', 
+    //     category: 'Culture Général', 
+    //     question: 'ça va ?', 
+    //     correct_answer: 'oui',
+    // }]
