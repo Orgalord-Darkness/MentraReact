@@ -12,13 +12,14 @@ export default function InputCategories() {
     
         })
     }, [])
+
     return(
         <>
             <label>Catégorie : </label>
             <select className = 'border px-2 py-2'>
             {categories.map((category) =>( 
                 console.log(category), 
-                <option value={category.name}>{category.name}</option>
+                <option value={category.id}>{category.name}</option>
             ),
             )}
             </select>
