@@ -25,3 +25,18 @@
     //     question: 'ça va ?', 
     //     correct_answer: 'oui',
     // }]
+
+---------------------------------------------------
+
+{/* <InputCategories/>
+      <InputDifficulty/>
+      <InputNbQuestions/> */}
+      {/* <InputCategories/> */}
+      {/* <div className="card">
+          <QuizResults/>
+      </div> */}
+
+// import {QuizResults} from'./components/QuizResults.tsx'; 
+// import InputDifficulty from'./components/InputDifficulty.tsx'; 
+// import InputNbQuestions from'./components/InputNbQuestions.tsx'; 
+// import InputCategories from'./components/InputCategories.tsx'; 
