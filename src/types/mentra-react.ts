@@ -16,6 +16,14 @@ export interface Question {
 export interface AnswersListProps {
     incorrectAnswers: string[]; 
     goodAnswer: string; 
+    setSelectedAnswer: (answer: string) => void;
+    setCompteur: (value: number) => void; 
+    currentQuestion: number;
+    setCurrentQuestion: (value: number) => void; 
+    max: number;
+    setStart: (value: boolean) => void; 
+    score: number;
+    
 }
 
 export interface Category {

@@ -40,3 +40,52 @@
 // import InputDifficulty from'./components/InputDifficulty.tsx'; 
 // import InputNbQuestions from'./components/InputNbQuestions.tsx'; 
 // import InputCategories from'./components/InputCategories.tsx'; 
+
+{/* {results.map((question) => (
+    <div key={question.id}>
+    <li>{question.question}</li>
+    <AnswersList
+        incorrectAnswers={question.incorrect_answers}
+        goodAnswer={question.correct_answer}
+    />
+    </div>
+))} */}
+
+
+
+{/* {answers.map((answer: string) => 
+    (<li>
+        <label> 
+            <input name="answer" 
+            type="radio" 
+            value={answer}
+            onChange={(e) => setSelectedAnswer(e.target.value)}
+            /> 
+            {answer}
+        </label>   
+    </li>),
+    <br></br>
+)}  */}
+
+useEffect(() => {
+    if(start) {
+      const timer = setTimeout(() => {
+        setScore((prev) => prev + 1);
+
+        if(selectedAnswer === correct) {
+            setScore((prev) => prev + 1);
+        }
+
+        if(currentQuestion + 1 < results.length) {
+          setCurrentQuestion((prev) => prev + 1);
+          setCompteur(5);
+        }else if(currentQuestion + 1 === results.length) {
+          window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
+          setStart(false);
+          setCurrentQuestion(0);
+          setCompteur(5); 
+        }
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  },[start, currentQuestion, results]);

@@ -5,6 +5,7 @@ import './App.css'
 import type { Category } from './types/mentra-react.ts';
 import urlFetch from'./components/UrlFetch.tsx';
 import AnswersList from './components/AnswersList.tsx';
+import CheckAnswer from './components/CheckAnswer.tsx';
 
 function App() {
   const urlCategories = 'https://opentdb.com/api_category.php';
@@ -14,9 +15,13 @@ function App() {
   const [difficulty, setDifficulty] = useState<string>('easy');
   const [nbQuestions, setNbQuestions] = useState<number>(10);
   const [category, setCategory] = useState<number>(9);
+  const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const [compteur, setCompteur] = useState<number>(5);
+  const [score, setScore] = useState<number>(0);
 
   const results = urlFetch(nbQuestions, difficulty, category);
+  const correct_answer = results[currentQuestion]?.correct_answer;
 
   useEffect(() => {
     fetch(urlCategories)
@@ -27,17 +32,50 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!start) {
+      return;
+    } 
+    if (compteur === 0) {
+      return; 
+    }
+
+    const timer = setTimeout(() => {
+      setCompteur(prev => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [start, compteur]);
+
+
+
+  useEffect(() => {
+    if(!start) {
+      return; 
+    }
+    if(compteur <= 0) {
+      window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
+      return; 
+    }
+
     if(start) {
-      const compteur = setTimeout(() => {
+      const timer = setTimeout(() => {
+        const check = {
+          selectedAnswer: selectedAnswer,
+          goodAnswer: correct_answer
+        }   
+        
         if(currentQuestion + 1 < results.length) {
-          setCurrentQuestion((prev) => prev + 1);
-        }else if(currentQuestion + 1 === results.length) {
-          window.alert(`Quiz terminé ! Score : ${currentQuestion + 1}/${results.length}`);
+          setScore((prev) => prev + CheckAnswer(check));
+          setCurrentQuestion(currentQuestion + 1);
+          setCompteur(5);
+        } else {
+          window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
           setStart(false);
           setCurrentQuestion(0);
+          setCompteur(5); 
         }
-      }, 200);
-      return () => clearTimeout(compteur);
+      }, 5000);
+      return () => clearTimeout(timer);
     }
   },[start, currentQuestion, results]);
 
@@ -94,25 +132,25 @@ function App() {
         </form>
       ) : (
         <>
-          <h2>Résultats :</h2>
+        <h2>Temps restant : {compteur} secondes</h2>
           <ul>
-            {/* {results.map((question) => (
-              <div key={question.id}>
-                <li>{question.question}</li>
-                <AnswersList
-                  incorrectAnswers={question.incorrect_answers}
-                  goodAnswer={question.correct_answer}
-                />
-              </div>
-            ))} */}
             {
               start && results.length > 0 && (
                 <div>
+                  <p>Compteur : {compteur}</p>
+                  <p>Longueur tabs: {results.length}</p>
                   <h2>Question {currentQuestion + 1}</h2>
                   <p>{results[currentQuestion]?.question}</p>
                   <AnswersList
                     incorrectAnswers={results[currentQuestion]?.incorrect_answers || []}
                     goodAnswer={results[currentQuestion]?.correct_answer || ''}
+                    setSelectedAnswer={setSelectedAnswer}
+                    setCompteur={setCompteur}
+                    currentQuestion={currentQuestion}
+                    setCurrentQuestion={setCurrentQuestion}
+                    max={results.length}
+                    setStart={setStart}
+                    score={score}
                   />
                 </div>
               )

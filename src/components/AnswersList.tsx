@@ -2,7 +2,7 @@ import {randomInt, randElement} from './../utils/random.tsx';
 import {useState, useEffect} from 'react'; 
 import type {AnswersListProps} from './../types/mentra-react.ts'; 
 
-export default function AnswersList({incorrectAnswers, goodAnswer}: AnswersListProps){
+export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score}: AnswersListProps){
     const answers: any = [...incorrectAnswers, goodAnswer];  
 
     const [randomNumber, setRandomNumber] = useState<number>(0);
@@ -39,18 +39,31 @@ export default function AnswersList({incorrectAnswers, goodAnswer}: AnswersListP
 
     return( 
         <>  
-        <form>
+        <form className='mt-4 mb-4'
+        onSubmit={(e) => {
+            e.preventDefault();  
+            setCompteur(5);
+            if(currentQuestion + 1< max) {
+                setCurrentQuestion(currentQuestion + 1);
+            }else{
+                window.alert(`Quiz terminé ! Score : ${score}/${max}`);
+                setStart(false); 
+                setCompteur(5);
+                setCurrentQuestion(0);
+            }
+        }}>
             <ul>
                 {answers.map((answer: string) => 
                     (<li>
                         <label> 
-                            <input name="answer" type="radio" value={answer}/> 
+                            <input name="answer" type="radio" value={answer} onChange={(e) => setSelectedAnswer(e.target.value)}/> 
                             {answer}
                         </label>   
                     </li>),
                     <br></br>
                 )} 
             </ul>
+            <input type="submit" value="Valider" className="border px-2 py-2 bg-green-500 text-white"/>
         </form>
         </>
           

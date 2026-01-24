@@ -5,6 +5,7 @@ import AnswersList from './../components/AnswersList.tsx';
 export function QuizResults(){
     const url ='https://opentdb.com/api.php?amount=10&difficulty=easy';
     const [results, setResults] = useState<Question[]>([]); 
+    const [selectedAnswer, setSelectedAnswer] = useState<string>('');
     useEffect(()=> {
         fetch(url)
         .then(res => res.json())
@@ -26,10 +27,11 @@ export function QuizResults(){
             (result, index) =>(
                 <div style={{ marginTop: '5px'}}> 
                     <p className='font-bold'>Question n°{index + 1}: {result.question}</p>
-                    <AnswersList 
+                    {/* <AnswersList 
                         incorrectAnswers={result.incorrect_answers}
                         goodAnswer = {result.correct_answer} 
-                    ></AnswersList>
+                        setSelectedAnswer = {setSelectedAnswer}
+                    ></AnswersList> */}
                 </div>
                 
             )
