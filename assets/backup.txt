@@ -89,3 +89,18 @@ useEffect(() => {
       return () => clearTimeout(timer);
     }
   },[start, currentQuestion, results]);
+
+  // useEffect(() => {
+    //     const answers = [...incorrectAnswers, goodAnswer];
+    //     const stockRand: number[] = [];
+
+    //     answers.forEach(() => {
+    //         const rand = randomInt(answers.length - 1);
+    //         if (!stockRand.includes(rand)) {
+    //             stockRand.push(rand);
+    //         }
+    //     });
+
+    //     setNumbers(stockRand);
+    //     setHistory(stockRand);
+    // }, [incorrectAnswers, goodAnswer]);

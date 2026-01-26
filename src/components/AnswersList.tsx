@@ -3,38 +3,21 @@ import {useState, useEffect} from 'react';
 import type {AnswersListProps} from './../types/mentra-react.ts'; 
 
 export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score}: AnswersListProps){
+    goodAnswer += 'Good answer : ';  
     const answers: any = [...incorrectAnswers, goodAnswer];  
 
-    const [randomNumber, setRandomNumber] = useState<number>(0);
+    const [random, setRandom] = useState<string[]>([]);
     const [numbers, setNumbers] = useState<number[]>([]); 
     const [numbersHistory, setHistory] = useState<number[]>([]); 
 
-    // useEffect(() => { 
-    //     answers.map(() => {
-    //         const rand = randomInt(answers.length - 1)
-    //         setRandomNumber(rand); 
-    //         if(!numbersHistory.includes(rand)){
-    //             setNumbers(prev => [...prev, rand])
-    //             setHistory(prev => [...prev, rand])
-    //         }
-             
-    //     })
+    useEffect(() => { 
+
+        for(let i = answers.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [answers[i], answers[j]] = [answers[j], answers[i]];
         
-    // }, [answers, numbers, numbersHistory]);
-
-    useEffect(() => {
-        const answers = [...incorrectAnswers, goodAnswer];
-        const stockRand: number[] = [];
-
-        answers.forEach(() => {
-            const rand = randomInt(answers.length - 1);
-            if (!stockRand.includes(rand)) {
-                stockRand.push(rand);
-            }
-        });
-
-        setNumbers(stockRand);
-        setHistory(stockRand);
+        }
+        setRandom(answers); 
     }, [incorrectAnswers, goodAnswer]);
 
     return( 
@@ -53,7 +36,7 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
             }
         }}>
             <ul>
-                {answers.map((answer: string) => 
+                {random.map((answer: string) => 
                     (<li>
                         <label> 
                             <input name="answer" type="radio" value={answer} onChange={(e) => setSelectedAnswer(e.target.value)}/> 
