@@ -23,6 +23,7 @@ export interface AnswersListProps {
     max: number;
     setStart: (value: boolean) => void; 
     score: number;
+    chrono: number;
     
 }
 

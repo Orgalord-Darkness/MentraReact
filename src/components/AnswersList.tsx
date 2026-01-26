@@ -2,7 +2,7 @@ import {randomInt, randElement} from './../utils/random.tsx';
 import {useState, useEffect} from 'react'; 
 import type {AnswersListProps} from './../types/mentra-react.ts'; 
 
-export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score}: AnswersListProps){
+export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score, chrono}: AnswersListProps){
     goodAnswer += 'Good answer : ';  
     const answers: any = [...incorrectAnswers, goodAnswer];  
 
@@ -25,13 +25,13 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
         <form className='mt-4 mb-4'
         onSubmit={(e) => {
             e.preventDefault();  
-            setCompteur(5);
+            setCompteur(chrono);
             if(currentQuestion + 1< max) {
                 setCurrentQuestion(currentQuestion + 1);
             }else{
                 window.alert(`Quiz terminé ! Score : ${score}/${max}`);
                 setStart(false); 
-                setCompteur(5);
+                setCompteur(chrono);
                 setCurrentQuestion(0);
             }
         }}>

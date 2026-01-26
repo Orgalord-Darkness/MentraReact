@@ -8,19 +8,20 @@ import AnswersList from './components/AnswersList.tsx';
 import CheckAnswer from './components/CheckAnswer.tsx';
 
 function App() {
+  const [chrono,setChrono] = useState<number>(15); 
   const urlCategories = 'https://opentdb.com/api_category.php';
   const [start, setStart] = useState<boolean>(false);
+  const [canFetch, setCanFetch] = useState<boolean>(false);   
   const [categories, setCategories] = useState<Category[]>([]);
-
   const [difficulty, setDifficulty] = useState<string>('easy');
   const [nbQuestions, setNbQuestions] = useState<number>(10);
   const [category, setCategory] = useState<number>(9);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-  const [compteur, setCompteur] = useState<number>(5);
+  const [compteur, setCompteur] = useState<number>(chrono);
   const [score, setScore] = useState<number>(0);
 
-  const results = urlFetch(nbQuestions, difficulty, category);
+  const {results, errors, loading} = urlFetch(nbQuestions, difficulty, category, canFetch,);   
   const correct_answer = results[currentQuestion]?.correct_answer;
 
   useEffect(() => {
@@ -52,6 +53,9 @@ function App() {
     if(!start) {
       return; 
     }
+    if(results.length === 0) {
+      return; 
+    }
     if(compteur <= 0) {
       window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
       return; 
@@ -67,17 +71,36 @@ function App() {
         if(currentQuestion + 1 < results.length) {
           setScore((prev) => prev + CheckAnswer(check));
           setCurrentQuestion(currentQuestion + 1);
-          setCompteur(5);
+          setCompteur(chrono);
         } else {
           window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
           setStart(false);
           setCurrentQuestion(0);
-          setCompteur(5); 
+          setCompteur(chrono); 
         }
       }, 5000);
       return () => clearTimeout(timer);
     }
   },[start, currentQuestion, results]);
+
+  if(errors && errors.length > 0) {
+    return (
+      <div>
+        <h2 className="text-red-700 font-bold underline text-xl"> Erreurs lors du fetch de l'API : </h2> 
+        <ul> 
+          {errors.map((error, index) => ( 
+            <li key={index} className="m-2"> 
+                <button className="bg-red-600 !bg-red-600 text-white px-3 py-2 rounded"> {error} </button>      
+            </li> 
+          ))} 
+        </ul>
+      </div>
+    );
+  }
+
+  if(loading) {
+    return <h2>Chargement...</h2>;
+  }
 
   return (
     <>
@@ -91,9 +114,8 @@ function App() {
       </div>
 
       <h1 className="font-bold text-center mt-8">MentraReact</h1>
-
       {!start ? (
-        <form onSubmit={(e) => { e.preventDefault(); setStart(true); }}>
+        <form onSubmit={(e) => { e.preventDefault(); setStart(true); setCanFetch(true); }} className='flex flex-col gap-4 mt-8'>
           <label>Difficulté : </label>
           <select
             value={difficulty}
@@ -137,10 +159,8 @@ function App() {
             {
               start && results.length > 0 && (
                 <div>
-                  <p>Compteur : {compteur}</p>
-                  <p>Longueur tabs: {results.length}</p>
-                  <h2>Question {currentQuestion + 1}</h2>
-                  <p>{results[currentQuestion]?.question}</p>
+                  <h2 className="mb-2">Question {currentQuestion + 1} / {results.length}</h2>
+                  <p className="mb-2">{results[currentQuestion]?.question}</p>
                   <AnswersList
                     incorrectAnswers={results[currentQuestion]?.incorrect_answers || []}
                     goodAnswer={results[currentQuestion]?.correct_answer || ''}
@@ -151,6 +171,7 @@ function App() {
                     max={results.length}
                     setStart={setStart}
                     score={score}
+                    chrono={chrono}
                   />
                 </div>
               )
