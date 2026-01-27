@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -8,7 +8,8 @@ import AnswersList from './components/AnswersList.tsx';
 import CheckAnswer from './components/CheckAnswer.tsx';
 
 function App() {
-  const [chrono,setChrono] = useState<number>(15); 
+  const [chrono,setChrono] = useState<number>(15);
+  const timerRef = useRef<number | null>(null); 
   const urlCategories = 'https://opentdb.com/api_category.php';
   const [start, setStart] = useState<boolean>(false);
   const [canFetch, setCanFetch] = useState<boolean>(false);   
@@ -49,39 +50,78 @@ function App() {
 
 
 
+  // useEffect(() => {
+  //   if (compteur === 0) {
+  //     return;
+  //   };
+  //   if(start) {
+  //     timerRef.current = setTimeout(() => {
+  //       const check = {
+  //         selectedAnswer: selectedAnswer,
+  //         goodAnswer: correct_answer
+  //       }   
+        
+  //       if(currentQuestion + 1 < results.length) {
+  //         setScore((prev) => prev + CheckAnswer(check));
+  //         setCurrentQuestion(currentQuestion + 1);
+  //         setCompteur(chrono);
+  //       } else {
+  //         window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
+  //         setStart(false);
+  //         setCurrentQuestion(0);
+  //         setCompteur(chrono); 
+  //       }
+  //     }, 5000);
+  //     return () => clearTimeout(timerRef.current!);
+  //   }
+  // },[start, currentQuestion, results, compteur]);
+
   useEffect(() => {
-    if(!start) {
-      return; 
-    }
-    if(results.length === 0) {
-      return; 
-    }
-    if(compteur <= 0) {
-      window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
+    if (!start) return;
+
+    if (compteur === 0) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+
+      const check = {
+        selectedAnswer,
+        goodAnswer: correct_answer
+      };
+
+      setScore(prev => prev + CheckAnswer(check));
+      setSelectedAnswer("");
+
+      if (currentQuestion + 1 < results.length) {
+        setCurrentQuestion(prev => prev + 1);
+        setCompteur(chrono);
+      } else {
+        window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        setStart(false);
+      }
+
       return; 
     }
 
-    if(start) {
-      const timer = setTimeout(() => {
-        const check = {
-          selectedAnswer: selectedAnswer,
-          goodAnswer: correct_answer
-        }   
-        
-        if(currentQuestion + 1 < results.length) {
-          setScore((prev) => prev + CheckAnswer(check));
-          setCurrentQuestion(currentQuestion + 1);
-          setCompteur(chrono);
-        } else {
-          window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
-          setStart(false);
-          setCurrentQuestion(0);
-          setCompteur(chrono); 
-        }
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  },[start, currentQuestion, results]);
+    timerRef.current = window.setTimeout(() => {
+      const check = {
+        selectedAnswer,
+        goodAnswer: correct_answer
+      };
+
+      setScore(prev => prev + CheckAnswer(check));
+      setSelectedAnswer("");
+
+      if (currentQuestion + 1 < results.length) {
+        setCurrentQuestion(prev => prev + 1);
+        setCompteur(chrono);
+      } else {
+        window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        setStart(false);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timerRef.current!);
+  }, [start, compteur, currentQuestion, results]);
+
 
   if(errors && errors.length > 0) {
     return (
@@ -115,7 +155,18 @@ function App() {
 
       <h1 className="font-bold text-center mt-8">MentraReact</h1>
       {!start ? (
-        <form onSubmit={(e) => { e.preventDefault(); setStart(true); setCanFetch(true); }} className='flex flex-col gap-4 mt-8'>
+        <form onSubmit={(e) => { 
+          e.preventDefault();
+          setStart(true); 
+          setCanFetch(true);
+           if (timerRef.current) 
+            clearTimeout(timerRef.current);
+            setScore(0); 
+            setCurrentQuestion(0); 
+            setSelectedAnswer(""); 
+            setCompteur(chrono); 
+          }} 
+          className='flex flex-col gap-4 mt-8'>
           <label>Difficulté : </label>
           <select
             value={difficulty}
@@ -172,6 +223,7 @@ function App() {
                     setStart={setStart}
                     score={score}
                     chrono={chrono}
+                    clearTimer={() => { if (timerRef.current) clearTimeout(timerRef.current); }}
                   />
                 </div>
               )

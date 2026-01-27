@@ -24,6 +24,7 @@ export interface AnswersListProps {
     setStart: (value: boolean) => void; 
     score: number;
     chrono: number;
+    clearTimer: () => void;
     
 }
 

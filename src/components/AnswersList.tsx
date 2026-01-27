@@ -2,8 +2,8 @@ import {randomInt, randElement} from './../utils/random.tsx';
 import {useState, useEffect} from 'react'; 
 import type {AnswersListProps} from './../types/mentra-react.ts'; 
 
-export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score, chrono}: AnswersListProps){
-    goodAnswer += 'Good answer : ';  
+export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score, chrono, clearTimer}: AnswersListProps){
+
     const answers: any = [...incorrectAnswers, goodAnswer];  
 
     const [random, setRandom] = useState<string[]>([]);
@@ -25,16 +25,18 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
         <form className='mt-4 mb-4'
         onSubmit={(e) => {
             e.preventDefault();  
-            setCompteur(chrono);
-            if(currentQuestion + 1< max) {
-                setCurrentQuestion(currentQuestion + 1);
-            }else{
-                window.alert(`Quiz terminé ! Score : ${score}/${max}`);
-                setStart(false); 
-                setCompteur(chrono);
-                setCurrentQuestion(0);
-            }
+            // setCompteur(chrono);
+            // if(currentQuestion + 1< max) {
+            //     setCurrentQuestion(currentQuestion + 1);
+            // }else{
+            //     window.alert(`Quiz terminé ! Score : ${score}/${max}`);
+            //     setStart(false); 
+            //     setCompteur(chrono);
+            //     setCurrentQuestion(0);
+            // }
         }}>
+            <h5 className='mtb-4'>{goodAnswer}</h5>
+            <div className='p-4'></div>
             <ul>
                 {random.map((answer: string) => 
                     (<li>
@@ -46,7 +48,13 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
                     <br></br>
                 )} 
             </ul>
-            <input type="submit" value="Valider" className="border px-2 py-2 bg-green-500 text-white"/>
+            <input type="submit"
+             value="Valider" 
+             onClick={() => {
+                clearTimer() 
+                setCompteur(0)
+            }}
+             className="border px-2 py-2 bg-green-500 text-white"/>
         </form>
         </>
           
