@@ -41,6 +41,6 @@ export default function urlFetch(nbQuestions:number, difficulty:string, category
         }).finally(() => {
             setLoading(false);
         });
-    }, [canFetch]);
+    }, [canFetch, nbQuestions, difficulty, category]);
     return {results, errors, loading};
 }

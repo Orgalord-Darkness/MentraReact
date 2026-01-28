@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -12,6 +12,7 @@ function App() {
   const timerRef = useRef<number | null>(null); 
   const urlCategories = 'https://opentdb.com/api_category.php';
   const [start, setStart] = useState<boolean>(false);
+  const [end, setEnd] = useState<boolean>(false);
   const [canFetch, setCanFetch] = useState<boolean>(false);   
   const [categories, setCategories] = useState<Category[]>([]);
   const [difficulty, setDifficulty] = useState<string>('easy');
@@ -21,6 +22,7 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [compteur, setCompteur] = useState<number>(chrono);
   const [score, setScore] = useState<number>(0);
+  const [pourcentage, setPourcentage] = useState<number>(0);  
 
   const {results, errors, loading} = urlFetch(nbQuestions, difficulty, category, canFetch,);   
   const correct_answer = results[currentQuestion]?.correct_answer;
@@ -86,16 +88,26 @@ function App() {
         selectedAnswer,
         goodAnswer: correct_answer
       };
-
-      setScore(prev => prev + CheckAnswer(check));
+      
+      if(selectedAnswer === correct_answer) {
+        setScore(prev => prev + 1); 
+      }
+      // setScore(prev => prev + CheckAnswer(check));
       setSelectedAnswer("");
 
       if (currentQuestion + 1 < results.length) {
         setCurrentQuestion(prev => prev + 1);
         setCompteur(chrono);
       } else {
-        window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        // window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        if(selectedAnswer === correct_answer) {
+          setScore(prev => prev + 1); 
+        } 
+        // {score + CheckAnswer(check)}
+        setPourcentage((score / results.length) * 100);
         setStart(false);
+        setEnd(true);
+        setCanFetch(false);
       }
 
       return; 
@@ -107,20 +119,32 @@ function App() {
         goodAnswer: correct_answer
       };
 
-      setScore(prev => prev + CheckAnswer(check));
+      if(selectedAnswer === correct_answer) {
+        setScore(prev => prev + 1); 
+      }
+      // setScore(prev => prev + CheckAnswer(check));
       setSelectedAnswer("");
 
       if (currentQuestion + 1 < results.length) {
         setCurrentQuestion(prev => prev + 1);
         setCompteur(chrono);
       } else {
-        window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        // window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        if(selectedAnswer === correct_answer) { 
+          setScore(prev => prev + 1); 
+        }
+        // {score + CheckAnswer(check)}
+        // setPourcentage(((score + CheckAnswer(check)) / results.length) * 100);
+        setPourcentage((score / results.length) * 100);
         setStart(false);
+        setEnd(true);
+        setCanFetch(false);
       }
     }, 5000);
 
     return () => clearTimeout(timerRef.current!);
-  }, [start, compteur, currentQuestion, results]);
+  // }, [canFetch, start, compteur, currentQuestion, results ]);
+  }, [start, compteur, currentQuestion]);
 
 
   if(errors && errors.length > 0) {
@@ -142,6 +166,11 @@ function App() {
     return <h2>Chargement...</h2>;
   }
 
+  const check = {
+    selectedAnswer: selectedAnswer,
+    goodAnswer: correct_answer
+  }
+
   return (
     <>
       <div className='flex mx-auto'>
@@ -154,10 +183,11 @@ function App() {
       </div>
 
       <h1 className="font-bold text-center mt-8">MentraReact</h1>
-      {!start ? (
+      {!start && (
         <form onSubmit={(e) => { 
           e.preventDefault();
           setStart(true); 
+          setEnd(false);
           setCanFetch(true);
            if (timerRef.current) 
             clearTimeout(timerRef.current);
@@ -203,7 +233,7 @@ function App() {
             className="border px-2 py-2 bg-blue-500 text-white"
           />
         </form>
-      ) : (
+      )} {(start && !end && (
         <>
         <h2>Temps restant : {compteur} secondes</h2>
           <ul>
@@ -230,6 +260,20 @@ function App() {
             }
           </ul>
         </>
+      ))}
+      {!start && end && (
+        
+        <div className="mt-8">
+          <h2 className="text-center font-bold text-xl">Quiz terminé !</h2>
+          {pourcentage >= 80 && <p className="text-center text-green-500">Félicitations !</p>}
+          {pourcentage < 80 && pourcentage >  70 && <p className="text-green-700">Bien !</p>} 
+          {pourcentage < 70 && pourcentage > 50 && <p className="text-yellow-500">Pas mal !</p>}
+          {pourcentage < 50 && pourcentage > 30 && <p className="text-orange-500">Peut mieux faire !</p>}
+          {pourcentage < 30 && <p className="text-center text-red-500">Recommence !</p>}
+          <p className="text-center">Score final : {score}/{results.length}</p>
+          <p className="text-center">Pourcentage de bonnes réponses : {Math.round(pourcentage)}%</p>
+          
+        </div>
       )}
     </>
   );

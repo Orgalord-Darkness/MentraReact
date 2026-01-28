@@ -79,6 +79,6 @@ X Je crois que choisir le nb questions marchent à moitié
 X Indicateur de chargement de récupération des données
 X erreurs de récupération gérées 
 X ordre des questions mélangés
-- score mis à jour
+X score mis à jour
 - message adapté au score obtenu 
-- bouton permettant de relancer un nouveau quiz 
+- bouton permettant de relancer un nouveau quiz
