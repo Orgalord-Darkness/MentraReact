@@ -142,3 +142,133 @@ useEffect(() => {
       return () => clearTimeout(timer);
     }
   },[start, currentQuestion, results, compteur]);
+
+
+
+  // useEffect(() => {
+  //   if (compteur === 0) {
+  //     return;
+  //   };
+  //   if(start) {
+  //     timerRef.current = setTimeout(() => {
+  //       const check = {
+  //         selectedAnswer: selectedAnswer,
+  //         goodAnswer: correct_answer
+  //       }   
+        
+  //       if(currentQuestion + 1 < results.length) {
+  //         setScore((prev) => prev + CheckAnswer(check));
+  //         setCurrentQuestion(currentQuestion + 1);
+  //         setCompteur(chrono);
+  //       } else {
+  //         window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
+  //         setStart(false);
+  //         setCurrentQuestion(0);
+  //         setCompteur(chrono); 
+  //       }
+  //     }, 5000);
+  //     return () => clearTimeout(timerRef.current!);
+  //   }
+  // },[start, currentQuestion, results, compteur]);
+
+  // setScore(prev => prev + CheckAnswer(check));
+
+  // window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+  // {score + CheckAnswer(check)}
+  // setScore(prev => prev + CheckAnswer(check));
+
+  // window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+
+  // {score + CheckAnswer(check)}
+        // setPourcentage(((score + CheckAnswer(check)) / results.length) * 100);
+
+        // }, [canFetch, start, compteur, currentQuestion, results ]);
+
+        import CheckAnswer from './components/CheckAnswer.tsx';
+
+        const check = {
+        selectedAnswer,
+        goodAnswer: correct_answer
+      };
+
+      const check = {
+        selectedAnswer,
+        goodAnswer: correct_answer
+      };
+
+      const check = {
+    selectedAnswer: selectedAnswer,
+    goodAnswer: correct_answer
+  }
+  
+
+  const [numbers, setNumbers] = useState<number[]>([]); 
+    const [numbersHistory, setHistory] = useState<number[]>([]); 
+
+     // setCompteur(chrono);
+            // if(currentQuestion + 1< max) {
+            //     setCurrentQuestion(currentQuestion + 1);
+            // }else{
+            //     window.alert(`Quiz terminé ! Score : ${score}/${max}`);
+            //     setStart(false); 
+            //     setCompteur(chrono);
+            //     setCurrentQuestion(0);
+            // }
+
+
+
+
+if (!start) return;
+
+    if (compteur === 0) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      
+      if(selectedAnswer === correct_answer) {
+        setScore(prev => prev + 1); 
+      }
+      
+      setSelectedAnswer("");
+
+      if (currentQuestion + 1 < results.length) {
+        setCurrentQuestion(prev => prev + 1);
+        setCompteur(chrono);
+      } else {
+        
+        if(selectedAnswer === correct_answer) {
+          setScore(prev => prev + 1); 
+        } 
+        
+        setPourcentage((score / results.length) * 100);
+        setStart(false);
+        setEnd(true);
+        setCanFetch(false);
+      }
+
+      return; 
+    }
+
+    timerRef.current = window.setTimeout(() => {
+
+      if(selectedAnswer === correct_answer) {
+        setScore(prev => prev + 1); 
+      }
+      
+      setSelectedAnswer("");
+
+      if (currentQuestion + 1 < results.length) {
+        setCurrentQuestion(prev => prev + 1);
+        setCompteur(chrono);
+      } else {
+        
+        if(selectedAnswer === correct_answer) { 
+          setScore(prev => prev + 1); 
+        }
+        
+        setPourcentage((score / results.length) * 100);
+        setStart(false);
+        setEnd(true);
+        setCanFetch(false);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timerRef.current!);

@@ -1,14 +1,16 @@
-import { use, useEffect, useRef, useState } from 'react'
+import {useEffect, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import type { Category } from './types/mentra-react.ts';
 import urlFetch from'./components/UrlFetch.tsx';
-import AnswersList from './components/AnswersList.tsx';
-import CheckAnswer from './components/CheckAnswer.tsx';
+import AnswersList from './components/AnswersList.tsx'; 
+import {decodeHtml} from './utils/domParser.tsx';  
+import FormSelectQuiz from './components/FormSelectQuiz.tsx'; 
+import type {useEffectCheckRoundProps} from './types/mentra-react.ts';
 
 function App() {
-  const [chrono,setChrono] = useState<number>(15);
+  const [chrono] = useState<number>(15);
   const timerRef = useRef<number | null>(null); 
   const urlCategories = 'https://opentdb.com/api_category.php';
   const [start, setStart] = useState<boolean>(false);
@@ -51,59 +53,27 @@ function App() {
   }, [start, compteur]);
 
 
-
-  // useEffect(() => {
-  //   if (compteur === 0) {
-  //     return;
-  //   };
-  //   if(start) {
-  //     timerRef.current = setTimeout(() => {
-  //       const check = {
-  //         selectedAnswer: selectedAnswer,
-  //         goodAnswer: correct_answer
-  //       }   
-        
-  //       if(currentQuestion + 1 < results.length) {
-  //         setScore((prev) => prev + CheckAnswer(check));
-  //         setCurrentQuestion(currentQuestion + 1);
-  //         setCompteur(chrono);
-  //       } else {
-  //         window.alert(`Quiz terminé ! Score : ${score}/${results.length}`);
-  //         setStart(false);
-  //         setCurrentQuestion(0);
-  //         setCompteur(chrono); 
-  //       }
-  //     }, 5000);
-  //     return () => clearTimeout(timerRef.current!);
-  //   }
-  // },[start, currentQuestion, results, compteur]);
-
   useEffect(() => {
     if (!start) return;
 
     if (compteur === 0) {
       if (timerRef.current) clearTimeout(timerRef.current);
-
-      const check = {
-        selectedAnswer,
-        goodAnswer: correct_answer
-      };
       
       if(selectedAnswer === correct_answer) {
         setScore(prev => prev + 1); 
       }
-      // setScore(prev => prev + CheckAnswer(check));
+      
       setSelectedAnswer("");
 
       if (currentQuestion + 1 < results.length) {
         setCurrentQuestion(prev => prev + 1);
         setCompteur(chrono);
       } else {
-        // window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        
         if(selectedAnswer === correct_answer) {
           setScore(prev => prev + 1); 
         } 
-        // {score + CheckAnswer(check)}
+        
         setPourcentage((score / results.length) * 100);
         setStart(false);
         setEnd(true);
@@ -114,27 +84,22 @@ function App() {
     }
 
     timerRef.current = window.setTimeout(() => {
-      const check = {
-        selectedAnswer,
-        goodAnswer: correct_answer
-      };
 
       if(selectedAnswer === correct_answer) {
         setScore(prev => prev + 1); 
       }
-      // setScore(prev => prev + CheckAnswer(check));
+      
       setSelectedAnswer("");
 
       if (currentQuestion + 1 < results.length) {
         setCurrentQuestion(prev => prev + 1);
         setCompteur(chrono);
       } else {
-        // window.alert(`Quiz terminé ! Score : ${score + CheckAnswer(check)}/${results.length}`);
+        
         if(selectedAnswer === correct_answer) { 
           setScore(prev => prev + 1); 
         }
-        // {score + CheckAnswer(check)}
-        // setPourcentage(((score + CheckAnswer(check)) / results.length) * 100);
+        
         setPourcentage((score / results.length) * 100);
         setStart(false);
         setEnd(true);
@@ -143,7 +108,7 @@ function App() {
     }, 5000);
 
     return () => clearTimeout(timerRef.current!);
-  // }, [canFetch, start, compteur, currentQuestion, results ]);
+  
   }, [start, compteur, currentQuestion]);
 
 
@@ -166,11 +131,6 @@ function App() {
     return <h2>Chargement...</h2>;
   }
 
-  const check = {
-    selectedAnswer: selectedAnswer,
-    goodAnswer: correct_answer
-  }
-
   return (
     <>
       <div className='flex mx-auto'>
@@ -184,55 +144,24 @@ function App() {
 
       <h1 className="font-bold text-center mt-8">MentraReact</h1>
       {!start && (
-        <form onSubmit={(e) => { 
-          e.preventDefault();
-          setStart(true); 
-          setEnd(false);
-          setCanFetch(true);
-           if (timerRef.current) 
-            clearTimeout(timerRef.current);
-            setScore(0); 
-            setCurrentQuestion(0); 
-            setSelectedAnswer(""); 
-            setCompteur(chrono); 
-          }} 
-          className='flex flex-col gap-4 mt-8'>
-          <label>Difficulté : </label>
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            className='border px-2 py-2'
-          >
-            <option value="easy">Facile</option>
-            <option value="medium">Moyen</option>
-            <option value="hard">Difficile</option>
-          </select>
-
-          <label>Catégorie : </label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(Number(e.target.value))}
-            className='border px-2 py-2'
-          >
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-
-          <label>Nombre de questions : </label>
-          <input
-            type="number"
-            value={nbQuestions}
-            onChange={(e) => setNbQuestions(Number(e.target.value))}
-            className="border"
+        <FormSelectQuiz 
+          categories={categories}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          category={category}
+          setCategory={setCategory}
+          nbQuestions={nbQuestions}
+          setNbQuestions={setNbQuestions}
+          setStart={setStart}
+          setEnd={setEnd}
+          setCanFetch={setCanFetch}
+          timerRef={timerRef}
+          setScore={setScore}
+          setCurrentQuestion={setCurrentQuestion}
+          setSelectedAnswer={setSelectedAnswer}
+          chrono={chrono}
+          setCompteur={setCompteur}
           />
-
-          <input
-            type="submit"
-            value="Lancer le quiz"
-            className="border px-2 py-2 bg-blue-500 text-white"
-          />
-        </form>
       )} {(start && !end && (
         <>
         <h2>Temps restant : {compteur} secondes</h2>
@@ -241,7 +170,7 @@ function App() {
               start && results.length > 0 && (
                 <div>
                   <h2 className="mb-2">Question {currentQuestion + 1} / {results.length}</h2>
-                  <p className="mb-2">{results[currentQuestion]?.question}</p>
+                  <p className="mb-2">{decodeHtml(results[currentQuestion]?.question)}</p>
                   <AnswersList
                     incorrectAnswers={results[currentQuestion]?.incorrect_answers || []}
                     goodAnswer={results[currentQuestion]?.correct_answer || ''}

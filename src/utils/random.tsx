@@ -1,8 +1,7 @@
-export const randomInt = (max: number)=> Math.floor(Math.random() * max)
-
-export function randElement(tabs:[]){
-    const count = tabs.length;
-    const n = randomInt(count);
-    return tabs[n];
+export function randomizer (answers: string[]) {
+    for(let i = answers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [answers[i], answers[j]] = [answers[j], answers[i]];
     
+    }
 }
