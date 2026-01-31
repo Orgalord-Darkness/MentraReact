@@ -1,12 +1,5 @@
-import {useRef} from 'react';  
-
 export interface Question {
-    id?: number, 
-    // type: string, 
-    // difficulty: string, 
-    // category: string, 
-    // question: string, 
-    // correct_answer: string,
+    id: number,
     type: string; 
     difficulty: string; 
     category: string; 
@@ -20,13 +13,8 @@ export interface AnswersListProps {
     goodAnswer: string; 
     setSelectedAnswer: (answer: string) => void;
     setCompteur: (value: number) => void; 
-    currentQuestion: number;
-    setCurrentQuestion: (value: number) => void; 
-    max: number;
-    setStart: (value: boolean) => void; 
-    score: number;
-    chrono: number;
     clearTimer: () => void;
+    setValidate: (value: boolean) => void;     
     
 }
 
@@ -69,8 +57,16 @@ export interface useEffectCheckRoundProps {
   setScore: (value: number | ((prev: number) => number)) => void;
   currentQuestion: number;
   setCurrentQuestion: (value: number | ((prev: number) => number)) => void;
-  results: Question[]; // ou ton type Question[]
+  results: Question[];
   setPourcentage: (value: number) => void;
   setCanFetch: (value: boolean) => void;
   timerRef: React.RefObject<number | null>;
+  validate: boolean;    
+  setValidate: (value: boolean) => void;    
+}
+
+export interface FinalMessageProps {
+    pourcentage: number;
+    score: number;
+    results: Question[];
 }

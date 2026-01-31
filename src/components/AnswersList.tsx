@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import type {AnswersListProps} from './../types/mentra-react.ts';
 import {decodeHtml} from './../utils/domParser.tsx';   
 
-export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, currentQuestion, setCurrentQuestion, max, setStart,score, chrono, clearTimer}: AnswersListProps){
+export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAnswer, setCompteur, clearTimer, setValidate}: AnswersListProps){
 
     const answers: any = [...incorrectAnswers, goodAnswer];  
 
@@ -30,14 +30,15 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
                             {decodeHtml(answer)}
                         </label>   
                     </li>),
-                    <br></br>
+                    <br></br>   
                 )} 
             </ul>
             <input type="submit"
              value="Valider" 
              onClick={() => {
-                clearTimer() 
-                setCompteur(0)
+                setValidate(true); 
+                clearTimer(); 
+                setCompteur(0); 
             }}
              className="border px-2 py-2 bg-green-500 text-white"/>
         </form>

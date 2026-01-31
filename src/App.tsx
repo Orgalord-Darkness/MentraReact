@@ -7,7 +7,8 @@ import urlFetch from'./components/UrlFetch.tsx';
 import AnswersList from './components/AnswersList.tsx'; 
 import {decodeHtml} from './utils/domParser.tsx';  
 import FormSelectQuiz from './components/FormSelectQuiz.tsx'; 
-import type {useEffectCheckRoundProps} from './types/mentra-react.ts';
+import {useCheckRound} from './components/UseEffectCheckRound.tsx';
+import {FinalMessage} from './components/FinalMessage.tsx';
 
 function App() {
   const [chrono] = useState<number>(15);
@@ -25,6 +26,7 @@ function App() {
   const [compteur, setCompteur] = useState<number>(chrono);
   const [score, setScore] = useState<number>(0);
   const [pourcentage, setPourcentage] = useState<number>(0);  
+  const [validate, setValidate] = useState<boolean>(false); 
 
   const {results, errors, loading} = urlFetch(nbQuestions, difficulty, category, canFetch,);   
   const correct_answer = results[currentQuestion]?.correct_answer;
@@ -52,65 +54,18 @@ function App() {
     return () => clearTimeout(timer);
   }, [start, compteur]);
 
-
-  useEffect(() => {
-    if (!start) return;
-
-    if (compteur === 0) {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      
-      if(selectedAnswer === correct_answer) {
-        setScore(prev => prev + 1); 
-      }
-      
-      setSelectedAnswer("");
-
-      if (currentQuestion + 1 < results.length) {
-        setCurrentQuestion(prev => prev + 1);
-        setCompteur(chrono);
-      } else {
-        
-        if(selectedAnswer === correct_answer) {
-          setScore(prev => prev + 1); 
-        } 
-        
-        setPourcentage((score / results.length) * 100);
-        setStart(false);
-        setEnd(true);
-        setCanFetch(false);
-      }
-
-      return; 
-    }
-
-    timerRef.current = window.setTimeout(() => {
-
-      if(selectedAnswer === correct_answer) {
-        setScore(prev => prev + 1); 
-      }
-      
-      setSelectedAnswer("");
-
-      if (currentQuestion + 1 < results.length) {
-        setCurrentQuestion(prev => prev + 1);
-        setCompteur(chrono);
-      } else {
-        
-        if(selectedAnswer === correct_answer) { 
-          setScore(prev => prev + 1); 
-        }
-        
-        setPourcentage((score / results.length) * 100);
-        setStart(false);
-        setEnd(true);
-        setCanFetch(false);
-      }
-    }, 5000);
-
-    return () => clearTimeout(timerRef.current!);
-  
-  }, [start, compteur, currentQuestion]);
-
+  useCheckRound({
+    compteur,setCompteur,start,setStart,currentQuestion,setCurrentQuestion,results, setPourcentage, end, setEnd,setCanFetch,
+    selectedAnswer,
+    setSelectedAnswer,
+    correct_answer,
+    score,
+    setScore,
+    timerRef,
+    chrono,
+    validate,
+    setValidate 
+  });
 
   if(errors && errors.length > 0) {
     return (
@@ -145,22 +100,10 @@ function App() {
       <h1 className="font-bold text-center mt-8">MentraReact</h1>
       {!start && (
         <FormSelectQuiz 
-          categories={categories}
-          difficulty={difficulty}
-          setDifficulty={setDifficulty}
-          category={category}
-          setCategory={setCategory}
-          nbQuestions={nbQuestions}
-          setNbQuestions={setNbQuestions}
-          setStart={setStart}
-          setEnd={setEnd}
-          setCanFetch={setCanFetch}
-          timerRef={timerRef}
-          setScore={setScore}
-          setCurrentQuestion={setCurrentQuestion}
-          setSelectedAnswer={setSelectedAnswer}
-          chrono={chrono}
-          setCompteur={setCompteur}
+          categories={categories}  difficulty={difficulty} setDifficulty={setDifficulty} category={category} setCategory={setCategory}
+          nbQuestions={nbQuestions} setNbQuestions={setNbQuestions} setStart={setStart} setEnd={setEnd} setCanFetch={setCanFetch}
+          timerRef={timerRef} setScore={setScore} setCurrentQuestion={setCurrentQuestion} setSelectedAnswer={setSelectedAnswer}
+          chrono={chrono} setCompteur={setCompteur}
           />
       )} {(start && !end && (
         <>
@@ -176,13 +119,8 @@ function App() {
                     goodAnswer={results[currentQuestion]?.correct_answer || ''}
                     setSelectedAnswer={setSelectedAnswer}
                     setCompteur={setCompteur}
-                    currentQuestion={currentQuestion}
-                    setCurrentQuestion={setCurrentQuestion}
-                    max={results.length}
-                    setStart={setStart}
-                    score={score}
-                    chrono={chrono}
                     clearTimer={() => { if (timerRef.current) clearTimeout(timerRef.current); }}
+                    setValidate={setValidate} 
                   />
                 </div>
               )
@@ -191,18 +129,7 @@ function App() {
         </>
       ))}
       {!start && end && (
-        
-        <div className="mt-8">
-          <h2 className="text-center font-bold text-xl">Quiz terminé !</h2>
-          {pourcentage >= 80 && <p className="text-center text-green-500">Félicitations !</p>}
-          {pourcentage < 80 && pourcentage >  70 && <p className="text-green-700">Bien !</p>} 
-          {pourcentage < 70 && pourcentage > 50 && <p className="text-yellow-500">Pas mal !</p>}
-          {pourcentage < 50 && pourcentage > 30 && <p className="text-orange-500">Peut mieux faire !</p>}
-          {pourcentage < 30 && <p className="text-center text-red-500">Recommence !</p>}
-          <p className="text-center">Score final : {score}/{results.length}</p>
-          <p className="text-center">Pourcentage de bonnes réponses : {Math.round(pourcentage)}%</p>
-          
-        </div>
+        <FinalMessage pourcentage={pourcentage} score={score} results={results} />
       )}
     </>
   );

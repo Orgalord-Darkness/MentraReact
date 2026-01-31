@@ -272,3 +272,403 @@ if (!start) return;
     }, 5000);
 
     return () => clearTimeout(timerRef.current!);
+
+// type: string, 
+    // difficulty: string, 
+    // category: string, 
+    // question: string, 
+    // correct_answer: string,
+
+
+    currentQuestion={currentQuestion}
+    setCurrentQuestion={setCurrentQuestion}
+    max={results.length}
+    setStart={setStart}
+    score={score}
+    chrono={chrono}
+
+
+ // useEffect(() => {
+  //   if (!start) return;
+
+  //   if (compteur === 0) {
+  //     if (timerRef.current) clearTimeout(timerRef.current);
+      
+  //     if(selectedAnswer === correct_answer) {
+  //       setScore(prev => prev + 1); 
+  //     }
+      
+  //     setSelectedAnswer("");
+
+  //     if (currentQuestion + 1 < results.length) {
+  //       setCurrentQuestion(prev => prev + 1);
+  //       setCompteur(chrono);
+  //     } else {
+        
+  //       if(selectedAnswer === correct_answer) {
+  //         setScore(prev => prev + 1); 
+  //       } 
+        
+  //       setPourcentage((score / results.length) * 100);
+  //       setStart(false);
+  //       setEnd(true);
+  //       setCanFetch(false);
+  //     }
+
+  //     return; 
+  //   }
+
+  //   timerRef.current = window.setTimeout(() => {
+
+  //     if(selectedAnswer === correct_answer) {
+  //       setScore(prev => prev + 1); 
+  //     }
+      
+  //     setSelectedAnswer("");
+
+  //     if (currentQuestion + 1 < results.length) {
+  //       setCurrentQuestion(prev => prev + 1);
+  //       setCompteur(chrono);
+  //     } else {
+        
+  //       if(selectedAnswer === correct_answer) { 
+  //         setScore(prev => prev + 1); 
+  //       }
+        
+  //       setPourcentage((score / results.length) * 100);
+  //       setStart(false);
+  //       setEnd(true);
+  //       setCanFetch(false);
+  //     }
+  //   }, 5000);
+
+  //   return () => clearTimeout(timerRef.current!);
+  
+  // }, [start, compteur, currentQuestion]);
+
+
+
+    // useEffect(() => {
+  //   if (!start) return;
+
+  //   if (compteur === 0) {
+  //     if (timerRef.current) clearTimeout(timerRef.current);
+      
+  //     if(selectedAnswer === correct_answer) {
+  //       setScore(prev => prev + 1); 
+  //     }
+      
+  //     setSelectedAnswer("");
+
+  //     if (currentQuestion + 1 < results.length) {
+  //       setCurrentQuestion(prev => prev + 1);
+  //       setCompteur(chrono);
+  //     } else {
+        
+  //       if(selectedAnswer === correct_answer) {
+  //         setScore(prev => prev + 1); 
+  //       } 
+        
+  //       setPourcentage((score / results.length) * 100);
+  //       setStart(false);
+  //       setEnd(true);
+  //       setCanFetch(false);
+  //     }
+
+  //     return; 
+  //   }
+
+  //   timerRef.current = window.setTimeout(() => {
+
+  //     if(selectedAnswer === correct_answer) {
+  //       setScore(prev => prev + 1); 
+  //     }
+      
+  //     setSelectedAnswer("");
+
+  //     if (currentQuestion + 1 < results.length) {
+  //       setCurrentQuestion(prev => prev + 1);
+  //       setCompteur(chrono);
+  //     } else {
+        
+  //       if(selectedAnswer === correct_answer) { 
+  //         setScore(prev => prev + 1); 
+  //       }
+        
+    //     setPourcentage((score / results.length) * 100);
+    //     setStart(false);
+    //     setEnd(true);
+    //     setCanFetch(false);
+    //   }
+    // }, 5000);
+
+  //   return () => clearTimeout(timerRef.current!);
+  
+  // }, [start, compteur, currentQuestion]);
+
+  // <UseEffectCheckRound 
+  //   compteur={compteur} setCompteur={setCompteur} start={start} setStart={setStart} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+  //   results={results} setPourcentage={setPourcentage} end={end} setEnd={setEnd} setCanFetch={setCanFetch} selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}
+  //   correct_answer={correct_answer || ''} score={score} setScore={setScore} timerRef={timerRef} chrono={chrono}
+  // />
+
+  ===========================================================================================================================
+
+  // import { useEffect } from "react";
+// import type { useEffectCheckRoundProps } from "../types/mentra-react";
+
+// export function UseEffectCheckRound({compteur, setCompteur, start, setStart, currentQuestion, setCurrentQuestion, 
+//     results, setPourcentage, setEnd, setCanFetch, selectedAnswer, setSelectedAnswer, correct_answer, score, setScore, timerRef, 
+//     chrono}: useEffectCheckRoundProps) 
+// {     
+//     useEffect(() => {
+//     if (!start) return;
+
+//         if (compteur === 0) {
+//             if (timerRef.current) {
+//                 clearTimeout(timerRef.current);
+//             } 
+        
+//             if(selectedAnswer === correct_answer) {
+//                 setScore((prev: number) => prev + 1); 
+//             }
+            
+//             setSelectedAnswer("");
+
+//             if (currentQuestion + 1 < results.length) {
+//                 setCurrentQuestion((prev: number) => prev + 1);
+//                 setCompteur(chrono);
+//             } else {
+                
+//                 if(selectedAnswer === correct_answer) {
+//                 setScore((prev: number) => prev + 1); 
+//                 } 
+                
+//                 setPourcentage((score / results.length) * 100);
+//                 setStart(false);
+//                 setEnd(true);
+//                 setCanFetch(false);
+//             }
+
+//             return; 
+//         }
+
+//         timerRef.current = window.setTimeout(() => {
+
+//         if(selectedAnswer === correct_answer) {
+//             setScore((prev: number) => prev + 1); 
+//         }
+        
+//         setSelectedAnswer("");
+
+//         if (currentQuestion + 1 < results.length) {
+//             setCurrentQuestion((prev: number) => prev + 1);
+//             setCompteur(chrono);
+//         } else {
+            
+//             if(selectedAnswer === correct_answer) { 
+//             setScore((prev: number) => prev + 1); 
+//             }
+            
+//             setPourcentage((score / results.length) * 100);
+//             setStart(false);
+//             setEnd(true);
+//             setCanFetch(false);
+//         }
+//         }, 5000);
+
+//     return () => clearTimeout(timerRef.current!);
+//     }, [start, compteur, currentQuestion])
+    
+
+// }
+
+
+
+//   useEffect(() => {
+//     if (!start) return;
+
+//     if (timerRef.current) clearTimeout(timerRef.current);
+
+//     timerRef.current = window.setTimeout(() => {
+//       const isCorrect = selectedAnswer === correct_answer;
+
+//       if (isCorrect) setScore(prev => prev + 1);
+
+//       setSelectedAnswer("");
+
+//       if (currentQuestion + 1 < results.length) {
+//         setCurrentQuestion(prev => prev + 1);
+//         setCompteur(chrono);
+//       } else {
+//         setPourcentage(((score + (isCorrect ? 1 : 0)) / results.length) * 100);
+//         setStart(false);
+//         setEnd(true);
+//         setCanFetch(false);
+//       }
+//     }, 5000);
+
+//     return () => clearTimeout(timerRef.current!);
+//   }, [start, currentQuestion]);
+
+
+
+
+  //     useEffect(() => {
+  //   if (!start) return;
+
+  //   if (compteur === 0) {
+  //     if (timerRef.current) clearTimeout(timerRef.current);
+      
+  //     if(selectedAnswer === correct_answer) {
+  //       setScore(prev => prev + 1); 
+  //     }
+      
+  //     setSelectedAnswer("");
+
+  //     if (currentQuestion + 1 < results.length) {
+  //       setCurrentQuestion(prev => prev + 1);
+  //       setCompteur(chrono);
+  //     } else {
+        
+  //       if(selectedAnswer === correct_answer) {
+  //         setScore(prev => prev + 1); 
+  //       } 
+        
+  //       setPourcentage((score / results.length) * 100);
+  //       setStart(false);
+  //       setEnd(true);
+  //       setCanFetch(false);
+  //     }
+
+  //     return; 
+  //   }
+
+  //   timerRef.current = window.setTimeout(() => {
+
+  //     if(selectedAnswer === correct_answer) {
+  //       setScore(prev => prev + 1); 
+  //     }
+      
+  //     setSelectedAnswer("");
+
+  //     if (currentQuestion + 1 < results.length) {
+  //       setCurrentQuestion(prev => prev + 1);
+  //       setCompteur(chrono);
+  //     } else {
+        
+  //       if(selectedAnswer === correct_answer) { 
+  //         setScore(prev => prev + 1); 
+  //       }
+        
+  //       setPourcentage((score / results.length) * 100);
+  //       setStart(false);
+  //       setEnd(true);
+  //       setCanFetch(false);
+  //     }
+  //   }, 5000);
+
+  //   return () => clearTimeout(timerRef.current!);
+  
+  // }, [start, compteur, currentQuestion]);
+
+
+
+
+import { useEffect } from "react";
+import type { useEffectCheckRoundProps } from "../types/mentra-react";
+
+export function useCheckRound({
+  compteur,
+  setCompteur,
+  start,
+  setStart,
+  currentQuestion,
+  setCurrentQuestion,
+  results,
+  setPourcentage,
+  setEnd,
+  setCanFetch,
+  selectedAnswer,
+  setSelectedAnswer,
+  correct_answer,
+  score,
+  setScore,
+  timerRef,
+  chrono,
+  validate,
+  setValidate,  
+}: useEffectCheckRoundProps) {
+     useEffect(() => {
+        if (!start) {
+            return;
+        }
+
+        if(!validate) {
+            return;
+        }
+
+        if(selectedAnswer === correct_answer) {
+            console.log("Correct answer selected");
+            setScore(prev => prev + 1); 
+            setValidate(false); 
+        }
+
+        if (compteur === 0) {
+
+            if (timerRef.current){
+                clearTimeout(timerRef.current);
+            }
+            
+            setSelectedAnswer("");
+
+            if (currentQuestion + 1 < results.length) {
+                setCurrentQuestion(prev => prev + 1);
+                setCompteur(chrono);
+            } else {
+                
+                // if(selectedAnswer === correct_answer) {
+                // setScore(prev => prev + 1); 
+                // } 
+                
+                setPourcentage((score / results.length) * 100);
+                setStart(false);
+                setEnd(true);
+                setCanFetch(false);
+            }
+
+            return; 
+        }
+
+        // if(selectedAnswer === correct_answer) {
+        //     setScore(prev => prev + 1); 
+        // }
+
+        timerRef.current = window.setTimeout(() => {
+        
+        setSelectedAnswer("");
+
+        if (currentQuestion + 1 < results.length) {
+            // if(selectedAnswer === correct_answer) {
+            //     setScore(prev => prev + 1); 
+            // }
+            setCurrentQuestion(prev => prev + 1);
+            setCompteur(chrono);
+        } else {
+            
+            // if(selectedAnswer === correct_answer) { 
+            //     setScore(prev => prev + 1); 
+            // }
+            
+            setPourcentage((score / results.length) * 100);
+            setStart(false);
+            setEnd(true);
+            setCanFetch(false);
+        }
+        }, 5000);
+
+        return () => clearTimeout(timerRef.current!);
+    
+    }, [start, compteur, currentQuestion]);
+
+}

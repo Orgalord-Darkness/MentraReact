@@ -10,12 +10,13 @@ export default function FormSelectQuiz({categories,difficulty, setDifficulty, ca
       setStart(true); 
       setEnd(false);
       setCanFetch(true);
-        if (timerRef.current) 
-        clearTimeout(timerRef.current);
-        setScore(0); 
-        setCurrentQuestion(0); 
-        setSelectedAnswer(""); 
-        setCompteur(chrono); 
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+          setScore(0); 
+          setCurrentQuestion(0); 
+          setSelectedAnswer(""); 
+          setCompteur(chrono);
+        } 
       }} 
       className='flex flex-col gap-4 mt-8'>
       <label>Difficulté : </label>
