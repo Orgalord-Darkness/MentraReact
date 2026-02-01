@@ -56,15 +56,7 @@ function App() {
 
   CheckRound({
     compteur,setCompteur,start,setStart,currentQuestion,setCurrentQuestion,results, setPourcentage, end, setEnd,setCanFetch,
-    selectedAnswer,
-    setSelectedAnswer,
-    correct_answer,
-    score,
-    setScore,
-    timerRef,
-    chrono,
-    validate,
-    setValidate 
+    selectedAnswer, setSelectedAnswer, correct_answer, score, setScore, timerRef, chrono, validate, setValidate 
   });
 
   if(errors && errors.length > 0) {
