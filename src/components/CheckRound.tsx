@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import type { useEffectCheckRoundProps } from "../types/mentra-react";
 import { decodeHtml } from "../utils/domParser";
 
-export function useCheckRound({compteur, setCompteur, start, setStart, currentQuestion, setCurrentQuestion, results, setEnd, setCanFetch,
+export function CheckRound({compteur, setCompteur, start, setStart, currentQuestion, setCurrentQuestion, results, setEnd, setCanFetch,
   selectedAnswer, setSelectedAnswer, correct_answer, setScore, timerRef, chrono, validate, setValidate,  
 }: useEffectCheckRoundProps) {
   

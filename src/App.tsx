@@ -7,7 +7,7 @@ import urlFetch from'./components/UrlFetch.tsx';
 import AnswersList from './components/AnswersList.tsx'; 
 import {decodeHtml} from './utils/domParser.tsx';  
 import FormSelectQuiz from './components/FormSelectQuiz.tsx'; 
-import {useCheckRound} from './components/UseEffectCheckRound.tsx';
+import {CheckRound} from './components/CheckRound.tsx';
 import {FinalMessage} from './components/FinalMessage.tsx';
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
     return () => clearTimeout(timer);
   }, [start, compteur]);
 
-  useCheckRound({
+  CheckRound({
     compteur,setCompteur,start,setStart,currentQuestion,setCurrentQuestion,results, setPourcentage, end, setEnd,setCanFetch,
     selectedAnswer,
     setSelectedAnswer,
