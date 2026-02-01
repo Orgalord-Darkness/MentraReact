@@ -20,7 +20,6 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
         onSubmit={(e) => {
             e.preventDefault();  
         }}>
-            <h5 className='mtb-4'>{decodeHtml(goodAnswer)}</h5>
             <div className='p-4'></div>
             <ul>
                 {random.map((answer: string) => 

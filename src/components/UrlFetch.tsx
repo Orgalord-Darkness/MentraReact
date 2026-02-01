@@ -19,14 +19,12 @@ export default function urlFetch(nbQuestions:number, difficulty:string, category
         fetch(url)
         .then(res => {
             if(!res.ok) {
-                console.log('res : ',res);
                 throw new Error(`Erreur lors du fetch de l'API : ${res.status} ${res.statusText}`);
             }
             return res.json()
         })
         .then(data => {
             if(data.response_code !== 0) {
-                console.log('data : ',data.response_code);
                 throw new Error(`Erreur lors du fetch de l'API : Nombre de réponses trouvées : ${data.response_code}`);
             }   
             setResults(
@@ -41,6 +39,6 @@ export default function urlFetch(nbQuestions:number, difficulty:string, category
         }).finally(() => {
             setLoading(false);
         });
-    }, [canFetch, nbQuestions, difficulty, category]);
+    }, [canFetch]);
     return {results, errors, loading};
 }

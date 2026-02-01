@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     if (!start) {
       return;
-    } 
+    }
     if (compteur === 0) {
       return; 
     }

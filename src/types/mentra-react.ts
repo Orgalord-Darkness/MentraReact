@@ -48,7 +48,7 @@ export interface useEffectCheckRoundProps {
   end: boolean;
   setEnd: (value: boolean) => void;
   compteur: number;
-  setCompteur: (value: number) => void;
+  setCompteur: (value: number | ((prev: number) => number)) => void;
   chrono: number;
   selectedAnswer: string;
   setSelectedAnswer: (value: string) => void;
