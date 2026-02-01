@@ -39,21 +39,6 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    if (!start) {
-      return;
-    }
-    if (compteur === 0) {
-      return; 
-    }
-
-    const timer = setTimeout(() => {
-      setCompteur(prev => prev - 1);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [start, compteur]);
-
   CheckRound({
     compteur,setCompteur,start,setStart,currentQuestion,setCurrentQuestion,results, setPourcentage, end, setEnd,setCanFetch,
     selectedAnswer, setSelectedAnswer, correct_answer, score, setScore, timerRef, chrono, validate, setValidate 
