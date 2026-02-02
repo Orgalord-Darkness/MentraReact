@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+:root{
+  background: #00ffff;
+  background: linear-gradient(90deg, rgba(0, 255, 255, 0.5) 0%, rgba(255, 248, 148, 1) 50%, rgba(255, 135, 251, 0.46) 100%);
+}

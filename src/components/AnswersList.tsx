@@ -15,33 +15,44 @@ export default function AnswersList({incorrectAnswers, goodAnswer, setSelectedAn
     }, [incorrectAnswers, goodAnswer]);
 
     return( 
-        <>  
-        <form className='mt-4 mb-4'
-        onSubmit={(e) => {
-            e.preventDefault();  
-        }}>
-            <div className='p-4'></div>
-            <ul>
-                {random.map((answer: string) => 
-                    (<li>
-                        <label> 
-                            <input name="answer" type="radio" value={answer} onChange={(e) => setSelectedAnswer(e.target.value)}/> 
-                            {decodeHtml(answer)}
-                        </label>   
-                    </li>),
-                    <br></br>   
-                )} 
-            </ul>
-            <input type="submit"
-             value="Valider" 
-             onClick={() => {
-                setValidate(true); 
-                clearTimer(); 
-                setCompteur(0); 
-            }}
-             className="border px-2 py-2 bg-green-500 text-white"/>
-        </form>
+       <>
+            <form
+                className="mt-4 mb-4"
+                onSubmit={(e) => {
+                e.preventDefault();
+                }}
+            >
+                <ul className="flex flex-col gap-3">
+                {random.map((answer: string) => (
+                    <li
+                    key={answer}
+                    className="bg-pink-50 border border-pink-300 rounded px-3 py-2 hover:bg-pink-100 transition"
+                    >
+                    <label className="flex items-center gap-2">
+                        <input
+                        name="answer"
+                        type="radio"
+                        value={answer}
+                        onChange={(e) => setSelectedAnswer(e.target.value)}
+                        />
+                        {decodeHtml(answer)}
+                    </label>
+                    </li>
+                ))}
+                </ul>
+
+                <input
+                type="submit"
+                value="Valider"
+                onClick={() => {
+                    setValidate(true);
+                    clearTimer();
+                    setCompteur(0);
+                }}
+                className="mt-4 px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                />
+            </form>
         </>
-          
+
         );
 }

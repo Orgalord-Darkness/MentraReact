@@ -58,7 +58,6 @@ export interface useEffectCheckRoundProps {
   currentQuestion: number;
   setCurrentQuestion: (value: number | ((prev: number) => number)) => void;
   results: Question[];
-  setPourcentage: (value: number) => void;
   setCanFetch: (value: boolean) => void;
   timerRef: React.RefObject<number | null>;
   validate: boolean;    
@@ -66,7 +65,14 @@ export interface useEffectCheckRoundProps {
 }
 
 export interface FinalMessageProps {
-    pourcentage: number;
     score: number;
     results: Question[];
+    setStart: (start: boolean) => void;
+    setEnd: (end: boolean) => void;
+    setCanFetch: (canFetch: boolean) => void;
+    setScore: (score: number) => void;
+    setCurrentQuestion: (currentQuestion: number) => void;
+    setSelectedAnswer: (selectedAnswer: string) => void;
+    setCompteur: (compteur: number) => void;
+    chrono: number;
 }

@@ -25,7 +25,6 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [compteur, setCompteur] = useState<number>(chrono);
   const [score, setScore] = useState<number>(0);
-  const [pourcentage, setPourcentage] = useState<number>(0);  
   const [validate, setValidate] = useState<boolean>(false); 
 
   const {results, errors, loading} = urlFetch(nbQuestions, difficulty, category, canFetch,);   
@@ -40,7 +39,7 @@ function App() {
   }, []);
 
   CheckRound({
-    compteur,setCompteur,start,setStart,currentQuestion,setCurrentQuestion,results, setPourcentage, end, setEnd,setCanFetch,
+    compteur,setCompteur,start,setStart,currentQuestion,setCurrentQuestion,results, end, setEnd,setCanFetch,
     selectedAnswer, setSelectedAnswer, correct_answer, score, setScore, timerRef, chrono, validate, setValidate 
   });
 
@@ -65,51 +64,90 @@ function App() {
 
   return (
     <>
-      <div className='flex mx-auto'>
-        <a className='mx-auto' href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+      <div className="flex justify-center gap-10 mt-8">
+        <a href="https://vite.dev" target="_blank" className="hover:scale-110 transition">
+          <img src={viteLogo} className="w-20 h-20 drop-shadow-lg" alt="Vite logo" />
         </a>
-        <a className='mx-auto' href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+
+        <a href="https://react.dev" target="_blank" className="hover:scale-110 transition">
+          <img src={reactLogo} className="w-20 h-20 drop-shadow-lg" alt="React logo" />
         </a>
       </div>
 
-      <h1 className="font-bold text-center mt-8">MentraReact</h1>
+      <h1 className="font-bold text-center text-4xl mt-6 text-purple-600 drop-shadow">
+        MentraReact
+      </h1>
       {!start && (
-        <FormSelectQuiz 
-          categories={categories}  difficulty={difficulty} setDifficulty={setDifficulty} category={category} setCategory={setCategory}
-          nbQuestions={nbQuestions} setNbQuestions={setNbQuestions} setStart={setStart} setEnd={setEnd} setCanFetch={setCanFetch}
-          timerRef={timerRef} setScore={setScore} setCurrentQuestion={setCurrentQuestion} setSelectedAnswer={setSelectedAnswer}
-          chrono={chrono} setCompteur={setCompteur}
-          />
-      )} {(start && !end && (
+        <FormSelectQuiz
+          categories={categories}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          category={category}
+          setCategory={setCategory}
+          nbQuestions={nbQuestions}
+          setNbQuestions={setNbQuestions}
+          setStart={setStart}
+          setEnd={setEnd}
+          setCanFetch={setCanFetch}
+          timerRef={timerRef}
+          setScore={setScore}
+          setCurrentQuestion={setCurrentQuestion}
+          setSelectedAnswer={setSelectedAnswer}
+          chrono={chrono}
+          setCompteur={setCompteur}
+        />
+      )}
+
+      {start && !end && (
         <>
-        <h2>Temps restant : {compteur} secondes</h2>
-          <ul>
-            {
-              start && results.length > 0 && (
-                <div>
-                  <h2 className="mb-2">Question {currentQuestion + 1} / {results.length}</h2>
-                  <p className="mb-2">{decodeHtml(results[currentQuestion]?.question)}</p>
-                  <AnswersList
-                    incorrectAnswers={results[currentQuestion]?.incorrect_answers || []}
-                    goodAnswer={results[currentQuestion]?.correct_answer || ''}
-                    setSelectedAnswer={setSelectedAnswer}
-                    setCompteur={setCompteur}
-                    clearTimer={() => { if (timerRef.current) clearTimeout(timerRef.current); }}
-                    setValidate={setValidate} 
-                  />
-                </div>
-              )
-            }
+          <h2 className="text-center text-xl font-bold mt-6 text-purple-500">
+            Temps restant : <span className="text-purple-600">{compteur}</span> sec
+          </h2>
+
+          <ul className="max-w-xl mx-auto mt-6 p-6 bg-white shadow-xl rounded-xl border border-pink-300">
+            {start && results.length > 0 && (
+              <div>
+                <h2 className="mb-3 font-bold text-lg text-purple-500">
+                  Question {currentQuestion + 1} / {results.length}
+                </h2>
+
+                <p className="mb-4 text-gray-700 font-medium">
+                  {decodeHtml(results[currentQuestion]?.question)}
+                </p>
+
+                <AnswersList
+                  incorrectAnswers={results[currentQuestion]?.incorrect_answers || []}
+                  goodAnswer={results[currentQuestion]?.correct_answer || ""}
+                  setSelectedAnswer={setSelectedAnswer}
+                  setCompteur={setCompteur}
+                  clearTimer={() => {
+                    if (timerRef.current) clearTimeout(timerRef.current);
+                  }}
+                  setValidate={setValidate}
+                />
+              </div>
+            )}
           </ul>
         </>
-      ))}
+      )}
+
       {!start && end && (
-        <FinalMessage pourcentage={pourcentage} score={score} results={results} />
+        <FinalMessage
+          score={score}
+          results={results}
+          setStart={setStart}
+          setEnd={setEnd}
+          setCanFetch={setCanFetch}
+          setScore={setScore}
+          setCurrentQuestion={setCurrentQuestion}
+          setSelectedAnswer={setSelectedAnswer}
+          setCompteur={setCompteur}
+          chrono={chrono}
+        />
       )}
     </>
   );
+
 }
 
 
